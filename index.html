@@ -1,13 +1,74 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+    <header class="header">
+        <div class="wrap">
+            <div class="title__block">
+                <h1 class="title">Напоминания</h1>
+                <div class="title__sign">
+                    <div class="title__more"></div>
+                    <!-- <div class="title__more-menu">
+                        <div class="title-menu-exit"></div>
+                        <ul class="title__more-list">
+                            <li class="title__more-item">Название</li>
+                            <li class="title__more-item">Выбрать напоминание</li>
+                            <li class="title__more-item">Показать завершенные</li>
+                            <li class="title__more-item">Удалить список</li>
+                        </ul>
+                    </div> -->
+                </div>
+                <div class="title__more-menu">
+                    <div class="title-menu-exit"></div>
+                    <ul class="title__more-list">
+                        <li class="title__more-item">Название</li>
+                        <li class="title__more-item">Выбрать напоминание</li>
+                        <li class="title__more-item">Показать завершенные</li>
+                        <li class="title__more-item">Удалить список</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <ul class="wrap remind-list">
+            <li class="note">
+                <div class="note__circle">
+                    <div class="note__circle-unchecked"></div>
+                </div>
+                <div class="note__area">
+                    <div class="note__title-block">
+                        <h2 class="note__title" contenteditable="true">Сделать дз</h2>
+                        <div class="note__title-editor-unchecked">i</div>
+                    </div>
+                    <p class="note__preview">Написать мобильное приложение напоминание Lorem ipsum dolor, sit amet
+                        consectetur adipisicing elit. Provident, expedita illum? Est suscipit aliquam iure saepe iusto
+                        blanditiis nesciunt, neque molestias quibusdam tenetur accusantium impedit ratione reiciendis
+                        maxime. Nobis, a!</p>
+                </div>
+            </li>
+        </ul>
+    </main>
+    <aside class="editor">
+        <div class="wrap">
+            <h2 class="editor__title" contenteditable="true">Текст заголовка</h2>
+            <div class="editor__content" contenteditable="true">Простой текст</div>
+            <button class="editor__save">Сохранить</button>
+        </div>
+    </aside>
+    <div class="add">
+        <div class="add-sign">+</div>
+        <p class="add-text" id="open">Напоминание</p>
+        <p class="add-text add-text-close" id="close">Закрыть</p>
+    </div>
     <script src="script.js"></script>
 </body>
+
 </html>
