@@ -162,7 +162,7 @@ body{
 .remind-list{
     list-style: none;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 100px;
     padding: 0;
 }
 
@@ -303,6 +303,7 @@ body{
     box-shadow: 0 0 10px #FFFCA5;
     transform: translateX(120%);
     transition: transform .6s ease;
+    overflow: scroll;
 }
 
 .editor__show{
@@ -310,6 +311,9 @@ body{
     transition: transform .6s ease;
 }
 
+.editor__wrap{
+    padding-bottom: 100px;
+}
 
 
 .editor__title{
