@@ -1,5 +1,4 @@
 const initialNotes = localStorage.getItem('notes') ? JSON.parse(localStorage.getItem('notes')) : []; // сохраняем напоминание в локальном хранилище
-
 //localStorage.removeItem('notes') // чистим всю информацию о списке напоминаний
 
 
@@ -17,7 +16,7 @@ function saveRemind(notes = [], idx = -1) {   // функция добавить
             });
     }
     localStorage.setItem('notes', JSON.stringify(notes)); // передаем в локальное хранилище новый массив
-    render(notes);                                        // передаем в функцию render новый массив
+    render(notes);                                        // передаем в функцию render новый массив для отрисовки новых элементов
     openCloseEditor();                                    // вызываем функцию открыть-закрыть страницу редактирования
 }
 
@@ -72,7 +71,7 @@ titleSign.onclick = () => {
 //закрываем выпадающее меню троеточия
 const titleMenuExit = document.querySelector('.title-menu-exit');
 titleMenuExit.onclick = () => {
- 
+
     const titleMore = document.querySelector('.title__more');
     const titleMoreMenu = document.querySelector('.title__more-menu');
     titleMore.classList.remove('display__hide'); // при нажатии исчезает меню редактирования
@@ -131,12 +130,17 @@ function renderRemind(newTitle, newText) {     // функция создани�
 function render(notes) {
     const remindList = document.querySelector('.remind-list'); // получаем объект - Напоминания
     const buttonSave = document.querySelector('.editor__save');
-    
+
+//кружок слева от заголовка заметки
+const circleChecked = document.querySelector('.note__circle');
+
+
+
     remindList.innerHTML = null;
     for (let idx = 0; idx < notes.length; idx++) {
-        const listItem = renderRemind(notes[idx].title, notes[idx].text);
+        const listItem = renderRemind(notes[idx].title, notes[idx].text);  // передаем в функцию отрисовку заголовка и текста
         
-        
+
         listItem.onclick = () => {                                         // кликаем на заголовок или текст напоминания
             openCloseEditor(notes[idx]);                                  // вызываем эту функцию, когда кликаем на любую часть этой заметки                        
             
@@ -165,27 +169,24 @@ circleChecked.onclick = () => {
 
 
 
-
 //кружок справа от заголовка заметки - i, меню редактирования
+const noteTitle = document.querySelector('.note__title');
+noteTitle.onclick = () => {
+    const noteTitleUnchecked = document.querySelector('.note__title-editor-unchecked'); // при нажатии на заголовок, справа появляется кружок
+    noteTitleUnchecked.classList.toggle('note__title-editor');
+}
+
+
+//const noteTitle = document.querySelector('.note__title');
+//noteTitle.onclick = infoEdit();
+
+
 // const noteTitle = document.querySelector('.note__title');
-// noteTitle.onclick = () => {
+// noteTitle.onclick = function infoEdit() {
+//     console.log(idx)
 //     const noteTitleUnchecked = document.querySelector('.note__title-editor-unchecked'); // при нажатии на заголовок, справа появляется кружок
 //     noteTitleUnchecked.classList.toggle('note__title-editor');
 // }
-
-
-const noteTitle = document.querySelector('.note__title');
-noteTitle.onclick = () => infoEdit();
-
-
-function infoEdit(notes = [], idx = -1){
-    
-        console.log('vse ok')
-        const noteTitleUnchecked = document.querySelector('.note__title-editor-unchecked'); // при нажатии на заголовок, справа появляется кружок
-        if(idx >=0){
-            notes[idx] = noteTitleUnchecked.classList.toggle('note__title-editor');
-    }
-}
 
 
 
