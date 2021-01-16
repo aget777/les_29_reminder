@@ -39,22 +39,24 @@ function editRemind(idx){          // передаем индекс напоми
 // функция добавления Напоминания
 function addRemind(){
     openCloseEditor();  
-    const editorTitle = document.querySelector('.editor__title');
-    const editorContent = document.querySelector('.editor__content');
     notes.push(
         {
             title: '',      
             text: ''
         });
-    
+    const editorTitle = document.querySelector('.editor__title');
+    const editorContent = document.querySelector('.editor__content');
     editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
     editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
 }
 
 
 // Функция в режиме реального времени сохраняет запись, интервал между сохранением 1 секунда
+
 let timeOut;  // создаем переменную, в которой будет храниться функция таймаута
 function realTimeSaveRemind(){     
+    const editorTitle = document.querySelector('.editor__title');
+    const editorContent = document.querySelector('.editor__content');
     clearTimeout(timeOut);  // обнуляем функцию, чтобы она сохраняла каждый раз после остановки ввода
     timeOut = setTimeout(function(){   
         const index = notes.length - 1;
