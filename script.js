@@ -2,44 +2,72 @@ const notes = localStorage.getItem('notes') ? JSON.parse(localStorage.getItem('n
 //localStorage.removeItem('notes') // чистим всю информацию о списке напоминаний
 
 
-function saveRemind(notes = [], idx = -1) {   // функция добавить напоминание в массив
-    const editorTitle = document.querySelector('.editor__title');
-    const editorContent = document.querySelector('.editor__content');
-    if (idx >= 0) {                           // если мы изменяем существующее напоминание
-        notes[idx].title = editorTitle.textContent;  // то изменяем title и text в этом напоминании по его индексу
-        notes[idx].text = editorContent.textContent;
-    } else {                                         // если это новое напоминание, то добавляем его в массив
-        notes.push(
-            {
-                title: editorTitle.textContent,      // с новым title и text
-                text: editorContent.textContent
-            });
-    }
-    localStorage.setItem('notes', JSON.stringify(notes)); // передаем в локальное хранилище новый массив
-    render();                                        // передаем в функцию render новый массив для отрисовки новых элементов
-    openCloseEditor();                                    // вызываем функцию открыть-закрыть страницу редактирования
-}
+// function saveRemind(notes = [], idx = -1) {   // функция добавить напоминание в массив
+//     const editorTitle = document.querySelector('.editor__title');
+//     const editorContent = document.querySelector('.editor__content');
+//     if (idx >= 0) {                           // если мы изменяем существующее напоминание
+//         notes[idx].title = editorTitle.textContent;  // то изменяем title и text в этом напоминании по его индексу
+//         notes[idx].text = editorContent.textContent;
+//     } else {                                         // если это новое напоминание, то добавляем его в массив
+//         notes.push(
+//             {
+//                 title: editorTitle.textContent,      // с новым title и text
+//                 text: editorContent.textContent
+//             });
+//     }
+//     localStorage.setItem('notes', JSON.stringify(notes)); // передаем в локальное хранилище новый массив
+//     render();                                        // передаем в функцию render новый массив для отрисовки новых элементов
+//     openCloseEditor();                                    // вызываем функцию открыть-закрыть страницу редактирования
+// }
 
 
 
 // функция при нажитии внизу на крестик выезжает новая страница добавления заметки
 const buttonAdd = document.querySelector('.add');
-buttonAdd.onclick = () => {
-    openCloseEditor();
-    const buttonSave = document.querySelector('.editor__save');
-    buttonSave.onclick = () => saveRemind(notes);
-};
+buttonAdd.onclick = addRemind;
 
 
-// функция, которая открывает-закрывает страницу с редактированием напоминания
+//функция отредактировать существующее напоминание
+function editRemind(idx){          // передаем индекс напоминания
+    const buttonSave = document.querySelector('.editor__save');   
+    openCloseEditor(notes[idx]);
+   // buttonSave.onclick = () => addRemind(notes, idx);
+}
 
-function openCloseEditor(note = { title: 'Введите напоминание', text: 'Введите текст напоминания' }) {
 
+
+// функция добавления Напоминания
+function addRemind(){
+    openCloseEditor();  
     const editorTitle = document.querySelector('.editor__title');
     const editorContent = document.querySelector('.editor__content');
-    editorTitle.innerText = note.title;
-    editorContent.innerText = note.text;
+    notes.push(
+        {
+            title: '',      
+            text: ''
+        });
+    
+    editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
+    editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
+}
 
+
+// Функция в режиме реального времени сохраняет запись, интервал между сохранением 1 секунда
+let timeOut;  // создаем переменную, в которой будет храниться функция таймаута
+function realTimeSaveRemind(){     
+    clearTimeout(timeOut);  // обнуляем функцию, чтобы она сохраняла каждый раз после остановки ввода
+    timeOut = setTimeout(function(){   
+        const index = notes.length - 1;
+        notes[index].title = editorTitle.textContent;
+        notes[index].text = editorContent.textContent;
+        localStorage.setItem('notes', JSON.stringify(notes)); // сохраняем измененные напоминания в локальное хранилище
+        render();   // отрисовываем текущее состояние
+        console.log(notes);
+    }, 1000);
+}
+
+// функция, которая открывает-закрывает страницу с редактированием напоминания
+function openCloseEditor(){
     const editor = document.querySelector('.editor');
     editor.classList.toggle('editor__show');
 
@@ -53,6 +81,30 @@ function openCloseEditor(note = { title: 'Введите напоминание'
     const addTextClose = document.getElementById('close'); // убираем-добавляем текст Закрыть
     addTextClose.classList.toggle('add-text-close');
 }
+
+
+// // функция, которая открывает-закрывает страницу с редактированием напоминания
+
+// function openCloseEditor(note = { title: 'Введите напоминание', text: 'Введите текст напоминания' }) {
+
+//     const editorTitle = document.querySelector('.editor__title');
+//     const editorContent = document.querySelector('.editor__content');
+//     editorTitle.innerText = note.title;
+//     editorContent.innerText = note.text;
+
+//     const editor = document.querySelector('.editor');
+//     editor.classList.toggle('editor__show');
+
+//     const addSign = document.querySelector('.add-sign'); // поворачивается на 45 градусов
+//     addSign.classList.toggle('add__close');
+
+//     const addText = document.querySelector('.add-text'); // убираем-добавляем текст Напоминания
+//     const addTextOpen = document.getElementById('open');
+//     addTextOpen.classList.toggle('add-text-close');
+
+//     const addTextClose = document.getElementById('close'); // убираем-добавляем текст Закрыть
+//     addTextClose.classList.toggle('add-text-close');
+// }
 
 
 //троеточие справа от главного заголовка Напоминания
@@ -93,7 +145,10 @@ function render() {
             </div>
             <div class="note__area">    <!-- создаем основной блок для Напоминания -->
                 <div class="note__title-block">   <!-- создаем блок для заголовка -->
-                    <h2 class="note__title" contenteditable="true" onclick="editRemind(${id})">${note.title}</h2>    <!-- создаем заголовок напоминания -->
+                    <div editor__title__wrap>
+                        <h2 class="note__title" contenteditable="true" onclick="editRemind(${id})">${note.title}</h2>    <!-- создаем заголовок напоминания -->
+                        <div class="title__circle"></div>
+                    </div>
                     <div class="note__title-editor-unchecked">i</div>    <!-- создаем блок для кружочка справа i -->
                     <div class="note__remove" onclick="removeRemind(${id})">Удалить</div>              <!-- создаем блок для кнопки Удалить -->
                 </div> 
@@ -106,21 +161,16 @@ function render() {
 }
 
 
-function editRemind(idx){
-    const buttonSave = document.querySelector('.editor__save');
-    openCloseEditor(notes[idx]);
-    buttonSave.onclick = () => saveRemind(notes, idx);
-}
-
-function removeRemind(idx){
-    notes.splice(idx, 1);
-    localStorage.setItem('notes', JSON.stringify(notes));
-    render()
+// функция удаления напоминания
+function removeRemind(idx){   //передаем индекс напоминания
+    notes.splice(idx, 1);    // удаляем напоминание по индексу
+    localStorage.setItem('notes', JSON.stringify(notes)); // перезаписываем изменения
+    render()  // отрисовываем измененный список
 }
 
 
 
-render(); // вызвываем функцию-цикл, которая проходит по массиву всех Напоминаний
+render(); // вызвываем функцию-цикл, которая проходит по массиву всех Напоминаний и отрисовывает их
 
 
 // //кружок слева от заголовка заметки

@@ -191,6 +191,7 @@ body{
     border-radius: 100%;
     background: transparent;
     transition: background-color .6s ease;
+    cursor: default;
 }
 
 
@@ -217,7 +218,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-
+    cursor: default;
 }
 
 
@@ -240,6 +241,7 @@ body{
     align-items: center;
     justify-content: space-between;
     position: relative;
+    cursor: default;
 }
 
 .note__title{
@@ -339,23 +341,24 @@ body{
     padding-bottom: 100px;
 }
 
-
+.editor__title__wrap{
+    height: 30px;
+    margin-top: 15px;
+    padding-bottom: 15px;
+}
 .editor__title{
     font-size: 25px;
     font-weight: 500;
     color: #000;
-    height: 30px;
     display: flex;
     align-items: center;
     border-bottom: 2px solid;
     border-color: #e0e0e0;
     margin: 0;
     padding: 0;
-    margin-top: 15px;
-    padding-bottom: 15px;
     outline: none;
     position: relative;
-    padding-left: 40px;
+    /*padding-left: 40px;*/
 }
 
 .editor__title:focus{
@@ -363,6 +366,21 @@ body{
 }
 
 .editor__title::before{
+    content: '';
+    display: inline;
+}
+
+.editor__title:empty::before{
+    content: "Введите заголовок";
+    display: inline; 
+    color: #999999;
+}
+.editor__title:focus::before{
+    content: '';
+}
+
+
+/* .title__circle{
     display: block;
     content: "";
     height: 20px;
@@ -377,7 +395,7 @@ body{
     transition: border-color .6s ease;
 }
 
-.editor__title::after{
+.title__circle::before{
     display: block;
     content: "";
     height: 6px;
@@ -390,17 +408,20 @@ body{
     left: 9px;
     transform: translateY(-50%) rotate(-45deg);
     transition: border-color .6s ease;
-}
+} */
 
-.editor__title:hover::before{
+
+
+/* 
+.title__circle:hover{
     border-color: #24abeb;
     transition: border-color .6s ease;
 }
 
-.editor__title:hover::after{
+.title__circle:hover::before{
     border-color: #24abeb;
     transition: border-color .6s ease;
-}
+} */
 
 
 
@@ -417,6 +438,19 @@ body{
     color: #000;
 }
 
+.editor__content::before{
+    content: '';
+    display: inline;
+}
+
+.editor__content:empty::before{
+    content: "Введите текст";
+    display: inline; 
+    color: #999999;
+}
+.editor__content:focus::before{
+    content: '';
+}
 
 .editor__save{
     border: 1px solid #bebebe;
@@ -449,6 +483,16 @@ body{
     cursor: default;
 }
 
+.add__close-wrap{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    position: fixed;
+    right: 45px;
+    bottom: 25px;
+    cursor: default;
+}
+
 .add-sign{
     font-size: 30px;
     color: #fff;
@@ -464,7 +508,7 @@ body{
     background-color: #24abeb;
     padding-bottom: 3px;
     margin-right: 10px;
-
+    transition: transform .6s ease;
 }
 
 .add-sign:hover{
