@@ -202,6 +202,27 @@ body{
     transition: background-color .6s ease;
 }
 
+
+.note__remove{
+    position: absolute;
+    font-size: 15px;
+    color:  #fff;
+    height: 25px;
+    width: 77px;
+    top: 10px;
+    right: 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background: #ED665F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+
 .note__area{
     width: 100%;
     overflow: hidden;
@@ -218,6 +239,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .note__title{
@@ -232,6 +254,7 @@ body{
     text-overflow: ellipsis;
     white-space: nowrap;
     outline: none;
+    padding-right: 80px;
 }
 
 .note__title::first-letter{
@@ -283,6 +306,7 @@ body{
     padding: 10px 0;
     border-bottom: 2px solid #e0e0e0;
     cursor: default;
+    padding-right: 100px;
 }
 
 .note__preview::first-letter{
