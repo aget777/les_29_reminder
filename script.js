@@ -1,6 +1,7 @@
 const notes = localStorage.getItem('notes') ? JSON.parse(localStorage.getItem('notes')) : []; // сохраняем напоминание в локальном хранилище
 //localStorage.removeItem('notes') // чистим всю информацию о списке напоминаний
 
+let addButtonClose = false;
 
 // function saveRemind(notes = [], idx = -1) {   // функция добавить напоминание в массив
 //     const editorTitle = document.querySelector('.editor__title');
@@ -29,37 +30,56 @@ buttonAdd.onclick = addRemind;
 
 //функция отредактировать существующее напоминание
 function editRemind(idx){          // передаем индекс напоминания
-    const buttonSave = document.querySelector('.editor__save');   
-    openCloseEditor(notes[idx]);
-   // buttonSave.onclick = () => addRemind(notes, idx);
+    const editorTitle = document.querySelector('.editor__title');
+    const editorContent = document.querySelector('.editor__content');
+    editorTitle.textContent = notes[idx].title;  // подставляем в редактируемое напоминание заголовок и текст
+    editorContent.textContent = notes[idx].text;
+    editorTitle.dataset.idx = idx;
+    editorContent.dataset.idx = idx;
+
+    openCloseEditor();  
+    if(addButtonClose){   //если страница с вводом напоминания открыть, то сохраняем эту заметку
+    editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
+    editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
+    };
+
 }
 
 
 
 // функция добавления Напоминания
 function addRemind(){
-    openCloseEditor();  
-    notes.push(
-        {
-            title: '',      
-            text: ''
-        });
     const editorTitle = document.querySelector('.editor__title');
     const editorContent = document.querySelector('.editor__content');
-    editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
-    editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
+    openCloseEditor(); 
+    editorTitle.textContent = ''; // обнуляем заголовок и текст, чтобы при создании нового напоминания ничего не подставлялось из старого
+    editorContent.textContent = ''; 
+    if(addButtonClose){   //если страница с вводом напоминания открыть, то сохраняем эту заметку
+        notes.push(
+            {
+                title: '',      
+                text: ''
+            });
+
+            editorTitle.dataset.idx = notes.length - 1; // в массив уже прибавилось новое напоминание, поэтому мы берем его индекс(он последний)
+            editorContent.dataset.idx = notes.length - 1;
+            editorTitle.removeEventListener('input', realTimeSaveRemind) // убираем старых слушателей
+            editorContent.removeEventListener('input', realTimeSaveRemind)
+
+            editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
+            editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
+         };
 }
 
-
 // Функция в режиме реального времени сохраняет запись, интервал между сохранением 1 секунда
-
 let timeOut;  // создаем переменную, в которой будет храниться функция таймаута
-function realTimeSaveRemind(){     
+function realTimeSaveRemind(event){     
+    const index = event.target.dataset.idx // с помощью атрибута dataset, определяем индекс напоминания, в котором сейчай происходят изменения
     const editorTitle = document.querySelector('.editor__title');
     const editorContent = document.querySelector('.editor__content');
     clearTimeout(timeOut);  // обнуляем функцию, чтобы она сохраняла каждый раз после остановки ввода
     timeOut = setTimeout(function(){   
-        const index = notes.length - 1;
+       
         notes[index].title = editorTitle.textContent;
         notes[index].text = editorContent.textContent;
         localStorage.setItem('notes', JSON.stringify(notes)); // сохраняем измененные напоминания в локальное хранилище
@@ -82,6 +102,7 @@ function openCloseEditor(){
 
     const addTextClose = document.getElementById('close'); // убираем-добавляем текст Закрыть
     addTextClose.classList.toggle('add-text-close');
+    addButtonClose = !addButtonClose;  // меняем значение, чтобы программа поняла, что мы закрыли страницу редактирования напоминания
 }
 
 
