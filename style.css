@@ -180,7 +180,7 @@ body{
     border: 1px solid #bebebe;
     border-radius: 100%;
     margin-right: 10px;
-    background-color: transparent;
+    background-color: transparent; 
 }
 
 .note__circle-unchecked{
@@ -345,6 +345,7 @@ body{
     height: 30px;
     margin-top: 15px;
     padding-bottom: 15px;
+    display: flex;
 }
 .editor__title{
     font-size: 25px;
@@ -380,39 +381,9 @@ body{
 }
 
 
-/* .title__circle{
-    display: block;
-    content: "";
-    height: 20px;
-    width: 20px;
-    border: 2px solid;
-    border-color: #3b68a9;
-    border-radius: 100%;
-    position: absolute;
-    top: 35%;
-    left: 0;
-    transform: translateY(-50%);
-    transition: border-color .6s ease;
-}
-
-.title__circle::before{
-    display: block;
-    content: "";
-    height: 6px;
-    width: 6px;
-    border-top: 2px solid;
-    border-left: 2px solid;
-    border-color:  #3b68a9;
-    position: absolute;
-    top: 35%;
-    left: 9px;
-    transform: translateY(-50%) rotate(-45deg);
-    transition: border-color .6s ease;
-} */
 
 
-
-/* 
+ 
 .title__circle:hover{
     border-color: #24abeb;
     transition: border-color .6s ease;
@@ -421,7 +392,7 @@ body{
 .title__circle:hover::before{
     border-color: #24abeb;
     transition: border-color .6s ease;
-} */
+} 
 
 
 

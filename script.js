@@ -33,6 +33,7 @@ function editRemind(idx){          // передаем индекс напоми
     if(addButtonClose){   //если страница с вводом напоминания открыть, то сохраняем эту заметку   
       addEventsToInput(idx);
     };
+    
 }
 
 
@@ -41,13 +42,21 @@ function editRemind(idx){          // передаем индекс напоми
 function addEventsToInput(idx){
     editorTitle.dataset.idx = idx;
     editorContent.dataset.idx = idx;
-
-    editorTitle.removeEventListener('input', realTimeSaveRemind) // убираем старых слушателей
-    editorContent.removeEventListener('input', realTimeSaveRemind)
-
+    
+    editorTitle.removeEventListener('input', realTimeSaveRemind); // убираем старых слушателей
+    editorContent.removeEventListener('input', realTimeSaveRemind);
+    
     editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
     editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
 }
+
+
+
+
+
+
+
+
 
 
 // Функция в режиме реального времени сохраняет запись, интервал между сохранением 1 секунда
@@ -90,6 +99,95 @@ function removeRemind(idx){   //передаем индекс напоминан
 
 
 
+//Эта функция выводит наши заметки на экран. Цикл проходит по массиву note и вытаскивает каждый объект, затем title и text передаем в функцию renderRemind создающую новое напоминание
+function render() {
+    const remindList = document.querySelector('.remind-list'); // получаем объект - Напоминания
+    //remindList.innerHTML = null;
+    remindList.innerHTML = notes.map(function(note, id, notes){
+        return `
+        <li class="note">   <!-- создаем элемент с тегом li -->
+        <div class="note__circle">   <!--создаем блок для кружочка слева onclick="circleCheck(${id})"-->
+        <div class="note__circle-unchecked" id="${id}" onclick="circleCheck(${id})"></div>   <!-- создаем еще один подблок для кружочка слева  -->
+        </div>
+            <div class="note__area">    <!-- создаем основной блок для Напоминания -->
+            <div class="note__title-block">   <!-- создаем блок для заголовка -->
+            
+            <h2 class="note__title" contenteditable="true" onclick="editRemind(${id})">${note.title}</h2>    <!-- создаем заголовок напоминания -->
+            
+            
+            <div class="note__title-editor-unchecked">i</div>    <!-- создаем блок для кружочка справа i -->
+            <div class="note__remove" onclick="removeRemind(${id})">Удалить</div>              <!-- создаем блок для кнопки Удалить -->
+            </div> 
+            <p class="note__preview">${note.text}</p>     <!-- создаем блок для текста напоминания -->
+            </div>
+            </li>
+            `
+        }).join('');
+        
+    }
+
+
+function circleCheck(idx){
+        const noteCircleCheck = document.getElementById(idx);
+        noteCircleCheck.classList.toggle('note__circle-checked')
+        console.log(noteCircleCheck)
+    }
+
+
+
+// //не могу понять почему не работает этот вариант с листенером
+//     document.addEventListener("DOMContentLoaded", ()=>{
+//     const testCircleUp = document.querySelector('.note__circle')
+//     testCircleUp.addEventListener('click', ()=>{
+//         console.log('hi')
+//     })
+// })
+    
+
+
+    // function onlineCheck(e){
+    //     console.log(e)
+    // }
+
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     const fullDoc = document.querySelector('.note');
+    //     const noteCircleCheck = document.querySelector('.note__circle');
+    //     noteCircleCheck.removeEventListener('click', onlineCheck)
+    //     noteCircleCheck.addEventListener('click', onlineCheck);
+    // });
+    
+    
+// function circleCheck(idx){
+    //     const noteCircleCheck = document.querySelector('.note__circle-unchecked');
+    //     noteCircleCheck.classList.toggle('note__circle-checked')
+    // }
+    
+    
+    // const noteCircleCheck = document.querySelector('.note__circle');
+    // noteCircleCheck
+    //editorContent.removeEventListener('input', realTimeSaveRemind);
+    
+    // const noteCircleCheck = document.querySelector('.note__circle-unchecked');
+    // noteCircleCheck.classList.toggle('note__circle-checked')
+    
+    
+    // function circleCheck(idx){
+        //     const noteCircleCheck = document.querySelector('.note__circle');
+        //     noteCircleCheck.dataset.idx = idx;
+//     noteCircleCheck.addEventListener('click', () =>{
+//         const noteCircleCheck = document.querySelector('.note__circle-unchecked');
+//     noteCircleCheck.classList.toggle('note__circle-checked')
+//     });
+//     console.log(idx)
+// }
+
+// function changeCheck(){
+//     const noteCircleCheck = document.querySelector('.note__circle-unchecked');
+//     noteCircleCheck.classList.toggle('note__circle-checked')
+// }
+
+
 
 //троеточие справа от главного заголовка Напоминания
 const titleSign = document.querySelector('.title__sign');
@@ -113,34 +211,6 @@ titleMenuExit.onclick = () => {
     titleMoreMenu.classList.remove('title__more-menu-show');
 }
 
-
-
-//Эта функция выводит наши заметки на экран. Цикл проходит по массиву note и вытаскивает каждый объект, затем title и text передаем в функцию renderRemind создающую новое напоминание
-function render() {
-    const remindList = document.querySelector('.remind-list'); // получаем объект - Напоминания
-    //remindList.innerHTML = null;
-    remindList.innerHTML = notes.map(function(note, id, notes){
-        return `
-        <li class="note">   <!-- создаем элемент с тегом li -->
-            <div class="note__circle">   <!--создаем блок для кружочка слева -->
-                <div class="note__circle-unchecked"></div>   <!-- создаем еще один подблок для кружочка слева -->
-            </div>
-            <div class="note__area">    <!-- создаем основной блок для Напоминания -->
-                <div class="note__title-block">   <!-- создаем блок для заголовка -->
-                    <div editor__title__wrap>
-                        <h2 class="note__title" contenteditable="true" onclick="editRemind(${id})">${note.title}</h2>    <!-- создаем заголовок напоминания -->
-                        <div class="title__circle"></div>
-                    </div>
-                    <div class="note__title-editor-unchecked">i</div>    <!-- создаем блок для кружочка справа i -->
-                    <div class="note__remove" onclick="removeRemind(${id})">Удалить</div>              <!-- создаем блок для кнопки Удалить -->
-                </div> 
-                <p class="note__preview">${note.text}</p>     <!-- создаем блок для текста напоминания -->
-            </div>
-        </li>
-        `
-    }).join('');
-
-}
 
 
 
