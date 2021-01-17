@@ -5,7 +5,7 @@ let addButtonClose = false;
 const editorTitle = document.querySelector('.editor__title');
 const editorContent = document.querySelector('.editor__content');
 const chooseDate = document.querySelector('.choose__date');
-const stringDate = String(chooseDate.value);
+
 
 
 
@@ -126,29 +126,28 @@ function render() {
     remindList.innerHTML = notes.map(function (note, id, notes) {
         return `
         <li class="note">   <!-- создаем элемент с тегом li -->
-        <div class="note__circle" onclick="circleCheck(${id})">   <!--создаем блок для кружочка слева -->
-        <div class="note__circle-unchecked" id="circle${id}" ></div>   <!-- создаем еще один подблок для кружочка слева  -->
-        </div>
-            <div class="note__area">    <!-- создаем основной блок для Напоминания -->
-            <div class="note__title-block">   <!-- создаем блок для заголовка -->
-            
-            <div class="note__title" contenteditable="true" id="title${id}" onclick="editRemind(${id})">${note.title}</div>    <!-- создаем заголовок напоминания -->
-            
-            
-            <div class="note__title-editor-unchecked" id="info${id}" onclick="infoMenuShow(${id})">i</div>    <!-- создаем блок для кружочка справа i -->
-                <ul class="note__menu" id="noteMenu${id}">
-                    <li class="note__menu-item" id="done${id}" onclick="noteIsDone(${id})">Выполнено</li>
-                    <li class="note__menu-item" id="change${id}" onclick="editRemind(${id})">Изменить</li>
-                    <li class="note__menu-item note__remove" onclick="removeRemind(${id})">Удалить</li>
-                </ul>
-            </div> 
-            <p class="note__preview">${note.text}</p>     <!-- создаем блок для текста напоминания -->
+            <div class="main__note__block">
+                <div class="note__circle" onclick="circleCheck(${id})">   <!--создаем блок для кружочка слева -->
+                    <div class="note__circle-unchecked" id="circle${id}" ></div>   <!-- создаем еще один подблок для кружочка слева  -->
+                </div>
+                <div class="note__area">    <!-- создаем основной блок для Напоминания -->
+                    <div class="note__title-block">   <!-- создаем блок для заголовка -->
+                        <div class="note__title" contenteditable="true" id="title${id}" onclick="editRemind(${id})">${note.title}</div>    <!-- создаем заголовок напоминания -->
+                        <div class="note__title-editor-unchecked" id="info${id}" onclick="infoMenuShow(${id})">i</div>    <!-- создаем блок для кружочка справа i -->
+                        <ul class="note__menu" id="noteMenu${id}">
+                            <li class="note__menu-item" id="done${id}" onclick="noteIsDone(${id})">Выполнено</li>
+                            <li class="note__menu-item" id="change${id}" onclick="editRemind(${id})">Изменить</li>
+                            <li class="note__menu-item note__remove" onclick="removeRemind(${id})">Удалить</li>
+                        </ul>
+                    </div> 
+                    <p class="note__preview">${note.text}</p>     <!-- создаем блок для текста напоминания -->
+                </div>
             </div>
-            <div class="time__settings">
-                <h3 class="time__settings-date">Дата напоминания</h3>
-                <div class="choose__date">${note.date}</div>  <!--дата, на которую установлено напоминание-->
+            <div class="time__settings" id="time${id}">
+                <h3 class="time__settings-date">Дата напоминания:</h3>
+                <div class="remind__choose__date">${checkDate(note.date)}</div>  <!--дата, на которую установлено напоминание-->
             </div>
-            </li>
+        </li>
             `
     }).join('');
 
@@ -185,9 +184,9 @@ function noteIsDone(idx){
     noteTitle.classList.toggle('note-is-done');
     noteTitleIsCrossOut = !noteTitleIsCrossOut;
     if(noteTitleIsCrossOut){                                   // меняем текст меню, если напоминание выполнено или не выполено
-        isDoneText.textContent = isDoneText.textContent.replace("Выполнено", "Не выполнено")
+        isDoneText.textContent = isDoneText.textContent.replace("Выполнено", "Не выполнено");
     }else{
-        isDoneText.textContent = isDoneText.textContent.replace("Не выполнено", "Выполнено")
+        isDoneText.textContent = isDoneText.textContent.replace("Не выполнено", "Выполнено");
     }
 }
 
@@ -202,6 +201,18 @@ function noteIsDone(idx){
 //     })
 // })
 
+
+//const timeBlock = document.getElementById('time' + idx) // не получилось скрыть блок, если дата не указана
+//эта функция проверяет указана дата или нет
+function checkDate(date){
+    let result;
+    if(date){
+        result = date;
+    }else{
+        result = "Дата не указана";
+    }
+    return result;
+}
 
 
 
@@ -232,9 +243,23 @@ titleMenuExit.onclick = () => {
 }
 
 
-
-
-
-
 render(); // вызвываем функцию-цикл, которая проходит по массиву всех Напоминаний и отрисовывает их
+
+
+// функция выбора даты
+const dateToggleCheck = document.querySelector('.toggle-box-circle') // переключатель выбора даты
+const dateToggeleBoxCheck = document.querySelector('.toggle-box')    // кружок переключателя
+let dateToggleCheckOn = false;                                               // переменная, определяющая включен или выключен переключатель
+dateToggleCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
+    dateToggleCheck.classList.toggle('toggle-box-circle-check');
+    dateToggeleBoxCheck.classList.toggle('toggle-box-check');
+    dateToggleCheckOn = !dateToggleCheckOn;                        //меняем значение флага на противоположное
+    const calendarShow = document.querySelector('.choose__date');
+    if(dateToggleCheckOn){                                       // если флаг включен, то появляется календарь
+        console.log(dateToggleCheckOn); 
+        calendarShow.classList.add('choose__date-show');
+    }else{
+        calendarShow.classList.remove('choose__date-show');
+    }
+})
 

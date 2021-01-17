@@ -168,14 +168,21 @@ body{
 
 .note{
     display: flex;
+    flex-direction: column;
     padding: 10px 0;
 }
+
+.main__note__block{
+    display: flex;
+}
+
+
 
 .note__circle{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
+    width: 21px;
     height: 20px;
     border: 1px solid #bebebe;
     border-radius: 100%;
@@ -539,5 +546,84 @@ body{
 
 .time__settings{
     display: flex;
+    align-items: center;
     width: 100%;
+    margin: 20px 0 10px;
 }
+
+.time__settings-hide{
+    display: none;
+}
+
+.time__settings-date{
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    cursor: default;
+    margin-right: 20px;
+}
+
+
+.date__choose__area{
+    display: flex;
+    align-items: center;
+}
+
+.date__title{
+    font-size: 20px;
+    color: #999999;
+    margin: 0;
+    padding: 0;
+    margin-right: 30px;
+}
+
+.remind__choose__date{
+    font-size: 16px;
+    color: #000;
+    cursor: default;
+}
+
+
+.choose__date{
+    font-size: 16px;
+    color: #000;
+    cursor: default;
+    margin-left: 50px;
+    display: none;
+}
+
+.choose__date-show{
+    display: -webkit-inline-flex;
+}
+
+
+
+.toggle-box{
+    height: 25px;
+    width: 55px;
+    border: 1px solid  #999999;
+    border-radius: 13px;
+    background-color: transparent;
+    transition: background-color .6s ease;
+}
+
+.toggle-box-check{
+    background-color: yellowgreen;
+    transition: background-color .7s ease;
+}
+
+.toggle-box-circle{
+    height: 25px;
+    width: 25px;
+    background-color: #999999;
+    border-radius: 100%;
+    transform: translateX(0);
+    transition: transform .7s ease;
+}
+
+.toggle-box-circle-check{
+    transform: translateX(30px);
+    transition: transform .6s ease;
+}
+

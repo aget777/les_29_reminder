@@ -39,8 +39,8 @@
     </header>
     <main>
         <ul class="wrap remind-list">
-            
-             <!-- <li class="note">
+
+            <!-- <li class="note">
                 <div class="note__circle">
                     <div class="note__circle-unchecked"></div>
                 </div>
@@ -61,12 +61,20 @@
     <aside class="editor">
         <div class="wrap editor__wrap">
             <div class="editor__title__wrap">
-             
-              <h2 class="editor__title" contenteditable="true" data-idx="0"></h2>
+
+                <h2 class="editor__title" contenteditable="true" data-idx="0"></h2>
             </div>
             <div class="editor__content" contenteditable="true"></div>
-            <input type="date" class="choose__date">
-            <!-- <button class="editor__save">Сохранить</button> asp-for="MyDate" asp-format="{0:yyyy-MM-dd}" -->
+            <div class="time__choose__block">
+                <div class="date__choose__area">
+                    <h4 class="date__title">Дата</h4>
+                    <div class="toggle-box">
+                        <div class="toggle-box-circle"></div>
+                    </div>
+                    <input type="date" class="choose__date">
+                </div>
+                <input type="time" class="choose__time">
+            </div>
         </div>
     </aside>
     <div class="add">
