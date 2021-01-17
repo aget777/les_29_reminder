@@ -535,3 +535,9 @@ body{
     transform: rotate(45deg);
     transition: transform .6s ease;
 }
+
+
+.time__settings{
+    display: flex;
+    width: 100%;
+}

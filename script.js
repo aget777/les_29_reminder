@@ -4,6 +4,11 @@ const notes = localStorage.getItem('notes') ? JSON.parse(localStorage.getItem('n
 let addButtonClose = false;
 const editorTitle = document.querySelector('.editor__title');
 const editorContent = document.querySelector('.editor__content');
+const chooseDate = document.querySelector('.choose__date');
+const stringDate = String(chooseDate.value);
+
+
+
 
 // при нажитии внизу на крестик выезжает новая страница добавления заметки
 const buttonAdd = document.querySelector('.add');
@@ -16,10 +21,12 @@ function addRemind() {
     if (addButtonClose) {   //если страница с вводом напоминания открыть, то сохраняем эту заметку
         editorTitle.textContent = ''; // обнуляем заголовок и текст, чтобы при создании нового напоминания ничего не подставлялось из старого
         editorContent.textContent = '';
+        chooseDate.value = '';
         notes.push(
             {
                 title: '',
-                text: ''
+                text: '',
+                date: ''
             });
         addEventsToInput(notes.length - 1); // в массив уже прибавилось новое напоминание, поэтому мы берем его индекс(он последний)
     };
@@ -29,6 +36,7 @@ function addRemind() {
 function editRemind(idx) {          // передаем индекс напоминания
     editorTitle.textContent = notes[idx].title;  // подставляем в редактируемое напоминание заголовок и текст
     editorContent.textContent = notes[idx].text;
+    chooseDate.value = notes[idx].date;
     openCloseEditor();
     if (addButtonClose) {   //если страница с вводом напоминания открыть, то сохраняем эту заметку   
         addEventsToInput(idx);
@@ -42,18 +50,26 @@ function editRemind(idx) {          // передаем индекс напом�
 function addEventsToInput(idx) {
     editorTitle.dataset.idx = idx;
     editorContent.dataset.idx = idx;
+    chooseDate.dataset.idx = idx;
 
     editorTitle.removeEventListener('input', realTimeSaveRemind); // убираем старых слушателей
     editorContent.removeEventListener('input', realTimeSaveRemind);
+    chooseDate.removeEventListener('change', realTimeSaveRemind);
+
 
     editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
     editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
+    chooseDate.addEventListener('change', realTimeSaveRemind)
+
 }
 
-
-
-
-
+// document.addEventListener("DOMContentLoaded", ()=>{
+// chooseDate.addEventListener('change', ()=>{
+//     const newDate = String(chooseDate.value)
+//     console.log(chooseDate.value)
+//     console.log(newDate)
+// })
+// })
 
 
 
@@ -68,6 +84,10 @@ function realTimeSaveRemind(event) {
 
         notes[index].title = editorTitle.textContent;
         notes[index].text = editorContent.textContent;
+        notes[index].date = chooseDate.value;
+
+        console.log(chooseDate.value)
+
         localStorage.setItem('notes', JSON.stringify(notes)); // сохраняем измененные напоминания в локальное хранилище
         render();   // отрисовываем текущее состояние
     }, 500);
@@ -123,6 +143,10 @@ function render() {
                 </ul>
             </div> 
             <p class="note__preview">${note.text}</p>     <!-- создаем блок для текста напоминания -->
+            </div>
+            <div class="time__settings">
+                <h3 class="time__settings-date">Дата напоминания</h3>
+                <div class="choose__date">${note.date}</div>  <!--дата, на которую установлено напоминание-->
             </div>
             </li>
             `
