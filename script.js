@@ -44,7 +44,6 @@ function editRemind(idx) {          // передаем индекс напом�
     if (addButtonClose) {   //если страница с вводом напоминания открыть, то сохраняем эту заметку   
         addEventsToInput(idx);
     };
-
 }
 
 
@@ -55,8 +54,6 @@ function addEventsToInput(idx) {
     editorContent.dataset.idx = idx;
     chooseDate.dataset.idx = idx;
     chooseTime.dataset.idx = idx;
-
-
 
     editorTitle.removeEventListener('input', realTimeSaveRemind); // убираем старых слушателей
     editorContent.removeEventListener('input', realTimeSaveRemind);
@@ -81,8 +78,6 @@ function realTimeSaveRemind(event) {
         notes[index].text = editorContent.textContent;
         notes[index].date = chooseDate.value;
         notes[index].time = chooseTime.value;
-
-        console.log(chooseDate.value);
 
         localStorage.setItem('notes', JSON.stringify(notes)); // сохраняем измененные напоминания в локальное хранилище
         render();   // отрисовываем текущее состояние
@@ -148,30 +143,29 @@ function render() {
         </li>
             `
     }).join('');
-
 }
 
 // эта функция заставляет появляться кружочек слева от заметки
-let isCheck = false
+let isCheck = false;
 function circleCheck(idx) {              
     const noteCircleCheck = document.getElementById('circle' + idx);
     noteCircleCheck.classList.toggle('note__circle-checked');
-    isCheck = !isCheck                                         // чтобы отследить включен или выключен кружок
-    const infoCircle = document.getElementById('info'+idx);
+    isCheck = !isCheck;                                         // чтобы отследить включен или выключен кружок
+    const infoCircle = document.getElementById('info' + idx);
     infoCircle.classList.toggle('note__title-editor');
     if (!isCheck) {                                    // это условие скрывает меню действий с заметкой, если кружочек слева не выбран
-        const noteMenu = document.getElementById('noteMenu'+idx)
-        noteMenu.classList.remove('note__menu-show')
-        noteMenu.classList.add('note__menu-hide')
+        const noteMenu = document.getElementById('noteMenu' + idx);
+        noteMenu.classList.remove('note__menu-show');
+        noteMenu.classList.add('note__menu-hide');
     }
 }
 
 
 // при нажатии кружка i справа появляется меню действий с заметкой
 function infoMenuShow(idx){   
-    const noteMenu = document.getElementById('noteMenu'+idx)
-    noteMenu.classList.remove('note__menu-hide')
-    noteMenu.classList.add('note__menu-show')  
+    const noteMenu = document.getElementById('noteMenu' + idx);
+    noteMenu.classList.remove('note__menu-hide');
+    noteMenu.classList.add('note__menu-show');  
 }
 
  // функция, которая зачеркивает напоминание и меняет пунк меню выполнено-не выполнено
@@ -253,8 +247,8 @@ render(); // вызвываем функцию-цикл, которая прох
 
 
 // функция выбора даты
-const dateToggleCheck = document.querySelector('.toggle-box-circle-date')  // кружок переключателя
-const dateToggeleBoxCheck = document.querySelector('.toggle-box-date')    // переключатель выбора даты
+const dateToggleCheck = document.querySelector('.toggle-box-circle-date');  // кружок переключателя
+const dateToggeleBoxCheck = document.querySelector('.toggle-box-date');    // переключатель выбора даты
 let dateToggleCheckOn = false;                                               // переменная, определяющая включен или выключен переключатель
 dateToggeleBoxCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
     dateToggleCheck.classList.toggle('toggle-box-circle-check');
@@ -262,7 +256,6 @@ dateToggeleBoxCheck.addEventListener('click', ()=>{                      //кл�
     dateToggleCheckOn = !dateToggleCheckOn;                        //меняем значение флага на противоположное
     const calendarShow = document.querySelector('.choose__date');
     if(dateToggleCheckOn){                                       // если флаг включен, то появляется календарь
-        console.log(dateToggleCheckOn); 
         calendarShow.classList.add('choose__date-show');
     }else{
         calendarShow.classList.remove('choose__date-show');
@@ -270,16 +263,15 @@ dateToggeleBoxCheck.addEventListener('click', ()=>{                      //кл�
 })
 
 // функция выбора времени
-const timeToggleCheck = document.querySelector('.toggle-box-circle-time')  // кружок переключателя
-const timeToggeleBoxCheck = document.querySelector('.toggle-box-time')     // переключатель выбора времени
+const timeToggleCheck = document.querySelector('.toggle-box-circle-time');  // кружок переключателя
+const timeToggeleBoxCheck = document.querySelector('.toggle-box-time');     // переключатель выбора времени
 let timeToggleCheckOn = false;                                               // переменная, определяющая включен или выключен переключатель
 timeToggeleBoxCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
     timeToggleCheck.classList.toggle('toggle-box-circle-check');
     timeToggeleBoxCheck.classList.toggle('toggle-box-check');
     timeToggleCheckOn = !timeToggleCheckOn;                        //меняем значение флага на противоположное
     const timerShow = document.querySelector('.choose__time');
-    if(timeToggleCheckOn){                                       // если флаг включен, то появляется выбор установки времени
-        console.log(timeToggleCheckOn); 
+    if(timeToggleCheckOn){                                       // если флаг включен, то появляется выбор установки времени 
         timerShow.classList.add('choose__time-show');
     }else{
         timerShow.classList.remove('choose__time-show');
