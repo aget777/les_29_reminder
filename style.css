@@ -169,7 +169,10 @@ body{
 .note{
     display: flex;
     flex-direction: column;
-    padding: 10px 0;
+    padding: 12px;
+    margin: 20px 0;
+    border: 1px solid  #bebebe;
+    border-radius: 7px
 }
 
 .main__note__block{
@@ -565,17 +568,26 @@ body{
 }
 
 
-.date__choose__area{
+.date__time-area{
     display: flex;
     align-items: center;
 }
 
-.date__title{
+.date__choose__area{
+    margin-bottom: 20px;
+}
+
+
+.date__time-title{
     font-size: 20px;
     color: #999999;
     margin: 0;
     padding: 0;
     margin-right: 30px;
+}
+
+.date__title{
+    margin-right: 45px;
 }
 
 .remind__choose__date{
@@ -596,8 +608,6 @@ body{
 .choose__date-show{
     display: -webkit-inline-flex;
 }
-
-
 
 .toggle-box{
     height: 25px;
@@ -627,3 +637,32 @@ body{
     transition: transform .6s ease;
 }
 
+
+.time__settings-time{
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    cursor: default;
+    margin-right: 20px;
+    margin-left: 50px;
+}
+
+
+.choose__time{
+    font-size: 16px;
+    color: #000;
+    cursor: default;
+    margin-left: 50px;
+    display: none;
+}
+
+.remind__choose__time{
+    font-size: 16px;
+    color: #000;
+    cursor: default;
+}
+
+.choose__time-show{
+    display: -webkit-inline-flex;
+}

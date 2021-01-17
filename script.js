@@ -5,7 +5,7 @@ let addButtonClose = false;
 const editorTitle = document.querySelector('.editor__title');
 const editorContent = document.querySelector('.editor__content');
 const chooseDate = document.querySelector('.choose__date');
-
+const chooseTime = document.querySelector('.choose__time');
 
 
 
@@ -22,11 +22,13 @@ function addRemind() {
         editorTitle.textContent = ''; // обнуляем заголовок и текст, чтобы при создании нового напоминания ничего не подставлялось из старого
         editorContent.textContent = '';
         chooseDate.value = '';
+        chooseTime.value = '';
         notes.push(
             {
                 title: '',
                 text: '',
-                date: ''
+                date: '',
+                time: ''
             });
         addEventsToInput(notes.length - 1); // в массив уже прибавилось новое напоминание, поэтому мы берем его индекс(он последний)
     };
@@ -37,6 +39,7 @@ function editRemind(idx) {          // передаем индекс напом�
     editorTitle.textContent = notes[idx].title;  // подставляем в редактируемое напоминание заголовок и текст
     editorContent.textContent = notes[idx].text;
     chooseDate.value = notes[idx].date;
+    chooseTime.value = notes[idx].time;
     openCloseEditor();
     if (addButtonClose) {   //если страница с вводом напоминания открыть, то сохраняем эту заметку   
         addEventsToInput(idx);
@@ -51,28 +54,20 @@ function addEventsToInput(idx) {
     editorTitle.dataset.idx = idx;
     editorContent.dataset.idx = idx;
     chooseDate.dataset.idx = idx;
+    chooseTime.dataset.idx = idx;
+
+
 
     editorTitle.removeEventListener('input', realTimeSaveRemind); // убираем старых слушателей
     editorContent.removeEventListener('input', realTimeSaveRemind);
     chooseDate.removeEventListener('change', realTimeSaveRemind);
-
+    chooseTime.removeEventListener('change', realTimeSaveRemind);
 
     editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
     editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
-    chooseDate.addEventListener('change', realTimeSaveRemind)
-
+    chooseDate.addEventListener('change', realTimeSaveRemind);
+    chooseTime.addEventListener('change', realTimeSaveRemind);
 }
-
-// document.addEventListener("DOMContentLoaded", ()=>{
-// chooseDate.addEventListener('change', ()=>{
-//     const newDate = String(chooseDate.value)
-//     console.log(chooseDate.value)
-//     console.log(newDate)
-// })
-// })
-
-
-
 
 
 // Функция в режиме реального времени сохраняет запись, интервал между сохранением 1 секунда
@@ -85,8 +80,9 @@ function realTimeSaveRemind(event) {
         notes[index].title = editorTitle.textContent;
         notes[index].text = editorContent.textContent;
         notes[index].date = chooseDate.value;
+        notes[index].time = chooseTime.value;
 
-        console.log(chooseDate.value)
+        console.log(chooseDate.value);
 
         localStorage.setItem('notes', JSON.stringify(notes)); // сохраняем измененные напоминания в локальное хранилище
         render();   // отрисовываем текущее состояние
@@ -146,6 +142,8 @@ function render() {
             <div class="time__settings" id="time${id}">
                 <h3 class="time__settings-date">Дата напоминания:</h3>
                 <div class="remind__choose__date">${checkDate(note.date)}</div>  <!--дата, на которую установлено напоминание-->
+                <h3 class="time__settings-time">Время напоминания:</h3>
+                <div class="remind__choose__time">${checkTime(note.time)}</div>  <!--время, на которое установлено напоминание-->
             </div>
         </li>
             `
@@ -214,7 +212,15 @@ function checkDate(date){
     return result;
 }
 
-
+function checkTime(time){
+    let result;
+    if(time){
+        result = time;
+    }else{
+        result = "Время не указано";
+    }
+    return result;
+}
 
 
 
@@ -247,8 +253,8 @@ render(); // вызвываем функцию-цикл, которая прох
 
 
 // функция выбора даты
-const dateToggleCheck = document.querySelector('.toggle-box-circle') // переключатель выбора даты
-const dateToggeleBoxCheck = document.querySelector('.toggle-box')    // кружок переключателя
+const dateToggleCheck = document.querySelector('.toggle-box-circle-date') // переключатель выбора даты
+const dateToggeleBoxCheck = document.querySelector('.toggle-box-date')    // кружок переключателя
 let dateToggleCheckOn = false;                                               // переменная, определяющая включен или выключен переключатель
 dateToggleCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
     dateToggleCheck.classList.toggle('toggle-box-circle-check');
@@ -263,3 +269,19 @@ dateToggleCheck.addEventListener('click', ()=>{                      //клик�
     }
 })
 
+// функция выбора времени
+const timeToggleCheck = document.querySelector('.toggle-box-circle-time') // переключатель выбора времени
+const timeToggeleBoxCheck = document.querySelector('.toggle-box-time')    // кружок переключателя
+let timeToggleCheckOn = false;                                               // переменная, определяющая включен или выключен переключатель
+timeToggleCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
+    timeToggleCheck.classList.toggle('toggle-box-circle-check');
+    timeToggeleBoxCheck.classList.toggle('toggle-box-check');
+    timeToggleCheckOn = !timeToggleCheckOn;                        //меняем значение флага на противоположное
+    const timerShow = document.querySelector('.choose__time');
+    if(timeToggleCheckOn){                                       // если флаг включен, то появляется выбор установки времени
+        console.log(timeToggleCheckOn); 
+        timerShow.classList.add('choose__time-show');
+    }else{
+        timerShow.classList.remove('choose__time-show');
+    }
+})
