@@ -106,8 +106,8 @@ function render() {
     remindList.innerHTML = notes.map(function (note, id, notes) {
         return `
         <li class="note">   <!-- создаем элемент с тегом li -->
-        <div class="note__circle">   <!--создаем блок для кружочка слева onclick="circleCheck(${id})"-->
-        <div class="note__circle-unchecked" id="circle${id}" onclick="circleCheck(${id})"></div>   <!-- создаем еще один подблок для кружочка слева  -->
+        <div class="note__circle" onclick="circleCheck(${id})">   <!--создаем блок для кружочка слева -->
+        <div class="note__circle-unchecked" id="circle${id}" ></div>   <!-- создаем еще один подблок для кружочка слева  -->
         </div>
             <div class="note__area">    <!-- создаем основной блок для Напоминания -->
             <div class="note__title-block">   <!-- создаем блок для заголовка -->
@@ -117,7 +117,7 @@ function render() {
             
             <div class="note__title-editor-unchecked" id="info${id}" onclick="infoMenuShow(${id})">i</div>    <!-- создаем блок для кружочка справа i -->
                 <ul class="note__menu" id="noteMenu${id}">
-                    <li class="note__menu-item" id="done${id}">Выполнено</li>
+                    <li class="note__menu-item" id="done${id}" onclick="noteIsDone(${id})">Выполнено</li>
                     <li class="note__menu-item" id="change${id}">Изменить</li>
                     <li class="note__menu-item note__remove" onclick="removeRemind(${id})">Удалить</li>
                 </ul>
@@ -140,11 +140,6 @@ function circleCheck(idx) {
     console.log(isCheck)
     const infoCircle = document.getElementById('info'+idx);
     infoCircle.classList.toggle('note__title-editor');
-
-    const noteTitle = document.getElementById('title' + idx);  // зачеркивание заголовка выполненного напоминания
-    noteTitle.classList.toggle('note-is-done');
-
-    
     if (!isCheck) {                                    // это условие скрывает меню действий с заметкой, если кружочек слева не выбран
         const noteMenu = document.getElementById('noteMenu'+idx)
         noteMenu.classList.remove('note__menu-show')
@@ -160,7 +155,18 @@ function infoMenuShow(idx){
     noteMenu.classList.add('note__menu-show')  
 }
 
-
+let noteTitleIsCrossOut = false;
+function noteIsDone(idx){                                       // функция, которая зачеркивает напоминание и меняет пунк меню выполнено-не выполнено
+    const isDoneText = document.getElementById('done' + idx);     
+    const noteTitle = document.getElementById('title' + idx);  // зачеркивание заголовка выполненного напоминания
+    noteTitle.classList.toggle('note-is-done');
+    noteTitleIsCrossOut = !noteTitleIsCrossOut;
+    if(noteTitleIsCrossOut){                                   // меняем текст меню, если напоминание выполнено или не выполено
+        isDoneText.textContent = isDoneText.textContent.replace("Не выполнено", "Выполнено")
+    }else{
+        isDoneText.textContent = isDoneText.textContent.replace("Выполнено", "Не выполнено")
+    }
+}
 
 
 
