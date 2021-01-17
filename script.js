@@ -11,41 +11,41 @@ buttonAdd.onclick = addRemind;
 
 
 // функция добавления Напоминания
-function addRemind(){
-    openCloseEditor(); 
-    if(addButtonClose){   //если страница с вводом напоминания открыть, то сохраняем эту заметку
+function addRemind() {
+    openCloseEditor();
+    if (addButtonClose) {   //если страница с вводом напоминания открыть, то сохраняем эту заметку
         editorTitle.textContent = ''; // обнуляем заголовок и текст, чтобы при создании нового напоминания ничего не подставлялось из старого
-        editorContent.textContent = ''; 
+        editorContent.textContent = '';
         notes.push(
             {
-                title: '',      
+                title: '',
                 text: ''
             });
-            addEventsToInput(notes.length - 1); // в массив уже прибавилось новое напоминание, поэтому мы берем его индекс(он последний)
-        };
+        addEventsToInput(notes.length - 1); // в массив уже прибавилось новое напоминание, поэтому мы берем его индекс(он последний)
+    };
 }
 
 //функция отредактировать существующее напоминание
-function editRemind(idx){          // передаем индекс напоминания
+function editRemind(idx) {          // передаем индекс напоминания
     editorTitle.textContent = notes[idx].title;  // подставляем в редактируемое напоминание заголовок и текст
     editorContent.textContent = notes[idx].text;
-    openCloseEditor();  
-    if(addButtonClose){   //если страница с вводом напоминания открыть, то сохраняем эту заметку   
-      addEventsToInput(idx);
+    openCloseEditor();
+    if (addButtonClose) {   //если страница с вводом напоминания открыть, то сохраняем эту заметку   
+        addEventsToInput(idx);
     };
-    
+
 }
 
 
 
 // функция, которая добавляет и убирает слушателей
-function addEventsToInput(idx){
+function addEventsToInput(idx) {
     editorTitle.dataset.idx = idx;
     editorContent.dataset.idx = idx;
-    
+
     editorTitle.removeEventListener('input', realTimeSaveRemind); // убираем старых слушателей
     editorContent.removeEventListener('input', realTimeSaveRemind);
-    
+
     editorTitle.addEventListener('input', realTimeSaveRemind); // вешаем листенера на заголовок и текст, чтобы отследить, когда начался ввод
     editorContent.addEventListener('input', realTimeSaveRemind); // и сохраняем эти зменения в режиме реального времени
 }
@@ -61,11 +61,11 @@ function addEventsToInput(idx){
 
 // Функция в режиме реального времени сохраняет запись, интервал между сохранением 1 секунда
 let timeOut;  // создаем переменную, в которой будет храниться функция таймаута
-function realTimeSaveRemind(event){     
+function realTimeSaveRemind(event) {
     const index = event.target.dataset.idx // с помощью атрибута dataset, определяем индекс напоминания, в котором сейчай происходят изменения
     clearTimeout(timeOut);  // обнуляем функцию, чтобы она сохраняла каждый раз после остановки ввода
-    timeOut = setTimeout(function(){   
-       
+    timeOut = setTimeout(function () {
+
         notes[index].title = editorTitle.textContent;
         notes[index].text = editorContent.textContent;
         localStorage.setItem('notes', JSON.stringify(notes)); // сохраняем измененные напоминания в локальное хранилище
@@ -74,7 +74,7 @@ function realTimeSaveRemind(event){
 }
 
 // функция, которая открывает-закрывает страницу с редактированием напоминания
-function openCloseEditor(){
+function openCloseEditor() {
     const editor = document.querySelector('.editor');
     editor.classList.toggle('editor__show');
 
@@ -91,7 +91,7 @@ function openCloseEditor(){
 }
 
 // функция удаления напоминания
-function removeRemind(idx){   //передаем индекс напоминания
+function removeRemind(idx) {   //передаем индекс напоминания
     notes.splice(idx, 1);    // удаляем напоминание по индексу
     localStorage.setItem('notes', JSON.stringify(notes)); // перезаписываем изменения
     render()  // отрисовываем измененный список
@@ -103,89 +103,80 @@ function removeRemind(idx){   //передаем индекс напоминан
 function render() {
     const remindList = document.querySelector('.remind-list'); // получаем объект - Напоминания
     //remindList.innerHTML = null;
-    remindList.innerHTML = notes.map(function(note, id, notes){
+    remindList.innerHTML = notes.map(function (note, id, notes) {
         return `
         <li class="note">   <!-- создаем элемент с тегом li -->
         <div class="note__circle">   <!--создаем блок для кружочка слева onclick="circleCheck(${id})"-->
-        <div class="note__circle-unchecked" id="${id}" onclick="circleCheck(${id})"></div>   <!-- создаем еще один подблок для кружочка слева  -->
+        <div class="note__circle-unchecked" id="circle${id}" onclick="circleCheck(${id})"></div>   <!-- создаем еще один подблок для кружочка слева  -->
         </div>
             <div class="note__area">    <!-- создаем основной блок для Напоминания -->
             <div class="note__title-block">   <!-- создаем блок для заголовка -->
             
-            <h2 class="note__title" contenteditable="true" onclick="editRemind(${id})">${note.title}</h2>    <!-- создаем заголовок напоминания -->
+            <h2 class="note__title" contenteditable="true" id="title${id}" onclick="editRemind(${id})">${note.title}</h2>    <!-- создаем заголовок напоминания -->
             
             
-            <div class="note__title-editor-unchecked">i</div>    <!-- создаем блок для кружочка справа i -->
-            <div class="note__remove" onclick="removeRemind(${id})">Удалить</div>              <!-- создаем блок для кнопки Удалить -->
+            <div class="note__title-editor-unchecked" id="info${id}" onclick="infoMenuShow(${id})">i</div>    <!-- создаем блок для кружочка справа i -->
+                <ul class="note__menu" id="noteMenu${id}">
+                    <li class="note__menu-item" id="done${id}">Выполнено</li>
+                    <li class="note__menu-item" id="change${id}">Изменить</li>
+                    <li class="note__menu-item note__remove" onclick="removeRemind(${id})">Удалить</li>
+                </ul>
+            <!--   <div class="note__remove" onclick="removeRemind(${id})">Удалить</div>          -->    <!-- создаем блок для кнопки Удалить -->
             </div> 
             <p class="note__preview">${note.text}</p>     <!-- создаем блок для текста напоминания -->
             </div>
             </li>
             `
-        }).join('');
-        
+    }).join('');
+
+}
+
+// эта функция заставляет появляться кружочек слева от заметки
+let isCheck = false
+function circleCheck(idx) {              
+    const noteCircleCheck = document.getElementById('circle' + idx);
+    noteCircleCheck.classList.toggle('note__circle-checked');
+    isCheck = !isCheck                                         // чтобы отследить включен или выключен кружок
+    console.log(isCheck)
+    const infoCircle = document.getElementById('info'+idx);
+    infoCircle.classList.toggle('note__title-editor');
+
+    const noteTitle = document.getElementById('title' + idx);  // зачеркивание заголовка выполненного напоминания
+    noteTitle.classList.toggle('note-is-done');
+
+    
+    if (!isCheck) {                                    // это условие скрывает меню действий с заметкой, если кружочек слева не выбран
+        const noteMenu = document.getElementById('noteMenu'+idx)
+        noteMenu.classList.remove('note__menu-show')
+        noteMenu.classList.add('note__menu-hide')
     }
+}
 
 
-function circleCheck(idx){
-        const noteCircleCheck = document.getElementById(idx);
-        noteCircleCheck.classList.toggle('note__circle-checked')
-        console.log(noteCircleCheck)
-    }
+// при нажатии кружка i справа появляется меню действий с заметкой
+function infoMenuShow(idx){   
+    const noteMenu = document.getElementById('noteMenu'+idx)
+    noteMenu.classList.remove('note__menu-hide')
+    noteMenu.classList.add('note__menu-show')  
+}
+
+
+
 
 
 
 // //не могу понять почему не работает этот вариант с листенером
-//     document.addEventListener("DOMContentLoaded", ()=>{
+//     document.addEventListener("DOMContentLoaded", ()=>{  // сначала необходимо, чтобы полностью прогрузилась страница
 //     const testCircleUp = document.querySelector('.note__circle')
-//     testCircleUp.addEventListener('click', ()=>{
+//     testCircleUp.addEventListener('click', ()=>{   // и только потом назначать слушателя
 //         console.log('hi')
 //     })
 // })
-    
 
 
-    // function onlineCheck(e){
-    //     console.log(e)
-    // }
 
 
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     const fullDoc = document.querySelector('.note');
-    //     const noteCircleCheck = document.querySelector('.note__circle');
-    //     noteCircleCheck.removeEventListener('click', onlineCheck)
-    //     noteCircleCheck.addEventListener('click', onlineCheck);
-    // });
-    
-    
-// function circleCheck(idx){
-    //     const noteCircleCheck = document.querySelector('.note__circle-unchecked');
-    //     noteCircleCheck.classList.toggle('note__circle-checked')
-    // }
-    
-    
-    // const noteCircleCheck = document.querySelector('.note__circle');
-    // noteCircleCheck
-    //editorContent.removeEventListener('input', realTimeSaveRemind);
-    
-    // const noteCircleCheck = document.querySelector('.note__circle-unchecked');
-    // noteCircleCheck.classList.toggle('note__circle-checked')
-    
-    
-    // function circleCheck(idx){
-        //     const noteCircleCheck = document.querySelector('.note__circle');
-        //     noteCircleCheck.dataset.idx = idx;
-//     noteCircleCheck.addEventListener('click', () =>{
-//         const noteCircleCheck = document.querySelector('.note__circle-unchecked');
-//     noteCircleCheck.classList.toggle('note__circle-checked')
-//     });
-//     console.log(idx)
-// }
 
-// function changeCheck(){
-//     const noteCircleCheck = document.querySelector('.note__circle-unchecked');
-//     noteCircleCheck.classList.toggle('note__circle-checked')
-// }
 
 
 

@@ -204,26 +204,6 @@ body{
 }
 
 
-.note__remove{
-    position: absolute;
-    font-size: 15px;
-    color:  #fff;
-    height: 25px;
-    width: 77px;
-    top: 10px;
-    right: 0;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    background: #ED665F;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: default;
-}
-
-
-
-
 .note__area{
     width: 100%;
     overflow: hidden;
@@ -231,10 +211,6 @@ body{
     white-space: nowrap;
 }
 
-.note__area:hover{
-    background-color: #F9FDDC;
-    transition: background-color .6s ease;
-}
 
 .note__title-block{
     display: flex;
@@ -245,7 +221,7 @@ body{
 }
 
 .note__title{
-    height: 30px;
+    height: 35px;
     width: 100%;
     font-size: 20px;
     font-weight: 400;
@@ -267,7 +243,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
+    width: 25px;
     height: 20px;
     border: 1px solid;
     border-color: transparent;
@@ -297,15 +273,60 @@ body{
     cursor: default;
 }
 
+.note__menu{
+    height: 75px;
+    width: 75px;
+    list-style: none;
+    position: absolute;
+    padding: 0;
+    top: 0;
+    right: 0;
+    border: 1px solid#e0e0e0;
+    border-radius: 3px;
+    display: none;
+}
+
+.note__menu-show{
+    display: block;
+    background: #fff;
+}
+
+.note__menu-hide{
+    display: none;
+}
+
+
+.note__menu-item{
+    font-size: 12px;
+    padding: 5px 0;
+    padding-left: 5px;
+    background-color: transparent;
+    color: #999999;
+    transition: background-color .6s ease;
+}
+
+.note__menu-item:hover{
+    color: #000;
+    background-color: #24abeb;
+    transition: background-color .6s ease;
+}
+
+.note__remove:hover{
+    background-color: tomato;
+    transition: background-color .6s ease;
+}
+
+
 
 .note__preview{
+    height: 20px;
     font-size: 14px;
     color: #999999;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 0;
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 2px solid #e0e0e0;
     cursor: default;
     padding-right: 100px;
