@@ -253,10 +253,10 @@ render(); // вызвываем функцию-цикл, которая прох
 
 
 // функция выбора даты
-const dateToggleCheck = document.querySelector('.toggle-box-circle-date') // переключатель выбора даты
-const dateToggeleBoxCheck = document.querySelector('.toggle-box-date')    // кружок переключателя
+const dateToggleCheck = document.querySelector('.toggle-box-circle-date')  // кружок переключателя
+const dateToggeleBoxCheck = document.querySelector('.toggle-box-date')    // переключатель выбора даты
 let dateToggleCheckOn = false;                                               // переменная, определяющая включен или выключен переключатель
-dateToggleCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
+dateToggeleBoxCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
     dateToggleCheck.classList.toggle('toggle-box-circle-check');
     dateToggeleBoxCheck.classList.toggle('toggle-box-check');
     dateToggleCheckOn = !dateToggleCheckOn;                        //меняем значение флага на противоположное
@@ -270,10 +270,10 @@ dateToggleCheck.addEventListener('click', ()=>{                      //клик�
 })
 
 // функция выбора времени
-const timeToggleCheck = document.querySelector('.toggle-box-circle-time') // переключатель выбора времени
-const timeToggeleBoxCheck = document.querySelector('.toggle-box-time')    // кружок переключателя
+const timeToggleCheck = document.querySelector('.toggle-box-circle-time')  // кружок переключателя
+const timeToggeleBoxCheck = document.querySelector('.toggle-box-time')     // переключатель выбора времени
 let timeToggleCheckOn = false;                                               // переменная, определяющая включен или выключен переключатель
-timeToggleCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
+timeToggeleBoxCheck.addEventListener('click', ()=>{                      //кликаем на кружок, он перемещается
     timeToggleCheck.classList.toggle('toggle-box-circle-check');
     timeToggeleBoxCheck.classList.toggle('toggle-box-check');
     timeToggleCheckOn = !timeToggleCheckOn;                        //меняем значение флага на противоположное
