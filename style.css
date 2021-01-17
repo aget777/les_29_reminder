@@ -367,15 +367,24 @@ body{
     margin-top: 15px;
     padding-bottom: 15px;
     display: flex;
+    border-bottom: 2px solid;
+    border-color: #e0e0e0;
 }
+
+.editor__title__wrap:hover{
+    border-color: #999;
+}
+
+
+
 .editor__title{
     font-size: 25px;
     font-weight: 500;
-    color: #000;
+    color: #999999;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid;
-    border-color: #e0e0e0;
+    /* border-bottom: 2px solid;
+    border-color: #e0e0e0; */
     margin: 0;
     padding: 0;
     outline: none;
@@ -384,6 +393,7 @@ body{
 }
 
 .editor__title:focus{
+    color: #000;
     border-color:  #999;
 }
 
@@ -395,7 +405,6 @@ body{
 .editor__title:empty::before{
     content: "Введите заголовок";
     display: inline; 
-    color: #999999;
 }
 .editor__title:focus::before{
     content: '';

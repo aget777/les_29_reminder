@@ -112,7 +112,7 @@ function render() {
             <div class="note__area">    <!-- создаем основной блок для Напоминания -->
             <div class="note__title-block">   <!-- создаем блок для заголовка -->
             
-            <h2 class="note__title" contenteditable="true" id="title${id}" onclick="editRemind(${id})">${note.title}</h2>    <!-- создаем заголовок напоминания -->
+            <div class="note__title" contenteditable="true" id="title${id}" onclick="editRemind(${id})">${note.title}</div>    <!-- создаем заголовок напоминания -->
             
             
             <div class="note__title-editor-unchecked" id="info${id}" onclick="infoMenuShow(${id})">i</div>    <!-- создаем блок для кружочка справа i -->
@@ -121,7 +121,6 @@ function render() {
                     <li class="note__menu-item" id="change${id}" onclick="editRemind(${id})">Изменить</li>
                     <li class="note__menu-item note__remove" onclick="removeRemind(${id})">Удалить</li>
                 </ul>
-            <!--   <div class="note__remove" onclick="removeRemind(${id})">Удалить</div>          -->    <!-- создаем блок для кнопки Удалить -->
             </div> 
             <p class="note__preview">${note.text}</p>     <!-- создаем блок для текста напоминания -->
             </div>
@@ -137,7 +136,6 @@ function circleCheck(idx) {
     const noteCircleCheck = document.getElementById('circle' + idx);
     noteCircleCheck.classList.toggle('note__circle-checked');
     isCheck = !isCheck                                         // чтобы отследить включен или выключен кружок
-    console.log(isCheck)
     const infoCircle = document.getElementById('info'+idx);
     infoCircle.classList.toggle('note__title-editor');
     if (!isCheck) {                                    // это условие скрывает меню действий с заметкой, если кружочек слева не выбран
@@ -155,16 +153,17 @@ function infoMenuShow(idx){
     noteMenu.classList.add('note__menu-show')  
 }
 
+ // функция, которая зачеркивает напоминание и меняет пунк меню выполнено-не выполнено
 let noteTitleIsCrossOut = false;
-function noteIsDone(idx){                                       // функция, которая зачеркивает напоминание и меняет пунк меню выполнено-не выполнено
+function noteIsDone(idx){                                      
     const isDoneText = document.getElementById('done' + idx);     
     const noteTitle = document.getElementById('title' + idx);  // зачеркивание заголовка выполненного напоминания
     noteTitle.classList.toggle('note-is-done');
     noteTitleIsCrossOut = !noteTitleIsCrossOut;
     if(noteTitleIsCrossOut){                                   // меняем текст меню, если напоминание выполнено или не выполено
-        isDoneText.textContent = isDoneText.textContent.replace("Не выполнено", "Выполнено")
-    }else{
         isDoneText.textContent = isDoneText.textContent.replace("Выполнено", "Не выполнено")
+    }else{
+        isDoneText.textContent = isDoneText.textContent.replace("Не выполнено", "Выполнено")
     }
 }
 
@@ -215,56 +214,3 @@ titleMenuExit.onclick = () => {
 
 render(); // вызвываем функцию-цикл, которая проходит по массиву всех Напоминаний и отрисовывает их
 
-
-// //кружок слева от заголовка заметки
-// const circleChecked = document.querySelector('.note__circle');
-// circleChecked.onclick = () => {
-//     console.log('zacherknut')
-//     const noteChecked = document.querySelector('.note__circle-unchecked');
-//     const noteIsDone = document.querySelector('.note__title');
-
-//     noteChecked.classList.toggle('note__circle-checked'); //при нажатии заполняется синим цветом
-//     noteIsDone.classList.toggle('note-is-done'); // зачеркивает заголовок заметки
-// }
-
-
-
-
-// //кружок справа от заголовка заметки - i, меню редактирования
-// const noteTitle = document.querySelector('.note__title');
-// noteTitle.onclick = () => {
-//     const noteTitleUnchecked = document.querySelector('.note__title-editor-unchecked'); // при нажатии на заголовок, справа появляется кружок
-//     noteTitleUnchecked.classList.toggle('note__title-editor');
-// }
-
-
-//const noteTitle = document.querySelector('.note__title');
-//noteTitle.onclick = infoEdit();
-
-
-// const noteTitle = document.querySelector('.note__title');
-// noteTitle.onclick = function infoEdit() {
-//     console.log(idx)
-//     const noteTitleUnchecked = document.querySelector('.note__title-editor-unchecked'); // при нажатии на заголовок, справа появляется кружок
-//     noteTitleUnchecked.classList.toggle('note__title-editor');
-// }
-
-
-
-// function saveRemind(notes = [], idx = -1) {   // функция добавить напоминание в массив
-//     const editorTitle = document.querySelector('.editor__title');
-//     const editorContent = document.querySelector('.editor__content');
-//     if (idx >= 0) {                           // если мы изменяем существующее напоминание
-//         notes[idx].title = editorTitle.textContent;  // то изменяем title и text в этом напоминании по его индексу
-//         notes[idx].text = editorContent.textContent;
-//     } else {                                         // если это новое напоминание, то добавляем его в массив
-//         notes.push(
-//             {
-//                 title: editorTitle.textContent,      // с новым title и text
-//                 text: editorContent.textContent
-//             });
-//     }
-//     localStorage.setItem('notes', JSON.stringify(notes)); // передаем в локальное хранилище новый массив
-//     render(notes);                                        // передаем в функцию render новый массив
-//     openCloseEditor();                                    // вызываем функцию открыть-закрыть страницу редактирования
-// }
