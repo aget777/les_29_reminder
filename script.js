@@ -118,7 +118,7 @@ function render() {
             <div class="note__title-editor-unchecked" id="info${id}" onclick="infoMenuShow(${id})">i</div>    <!-- создаем блок для кружочка справа i -->
                 <ul class="note__menu" id="noteMenu${id}">
                     <li class="note__menu-item" id="done${id}" onclick="noteIsDone(${id})">Выполнено</li>
-                    <li class="note__menu-item" id="change${id}">Изменить</li>
+                    <li class="note__menu-item" id="change${id}" onclick="editRemind(${id})">Изменить</li>
                     <li class="note__menu-item note__remove" onclick="removeRemind(${id})">Удалить</li>
                 </ul>
             <!--   <div class="note__remove" onclick="removeRemind(${id})">Удалить</div>          -->    <!-- создаем блок для кнопки Удалить -->
